@@ -1,15 +1,15 @@
 import pyttsx3 # for text to speech
 from datetime import datetime # for time
 import speech_recognition as user_audio # user input by voice
-import pyaudio
+#import pyaudio
 import os
 import subprocess as sp
 
 import requests
 import wikipedia
 import pywhatkit as kit
-import webbrowser 
-import smtplib
+ 
+#import smtplib
 
 
 USERNAME = 'AYUSH'
@@ -167,8 +167,6 @@ if __name__ == '__main__':
         elif 'open calculator' in query:
             open_calculator()    
           
-        elif 'exit' in query or 'quit' in query:
-           exit()
         elif 'wikipedia' in query:
             try:
                 speak('What do you want to search on Wikipedia, sir?')
@@ -180,26 +178,18 @@ if __name__ == '__main__':
             except:
                 speak("sorry ,could not search")
         elif 'youtube' in query:
-            search_on_google("youtube")
+            search_on_google("https://www.youtube.com/")
             exit()
+        elif  'news' in query:                                  
+        #'news' or 'tell news'or'say news' in query:
+            news_report()
+            
         elif 'search on google' in query or 'search' in query:
             speak('What do you want to search on Google, sir?')
             query = take_user_input().lower()
             search_on_google(query)
             exit()
-        elif 'send email' in query or 'email' in query:
-                try:
-                    speak("whome do you want to send email")
-                    to = take_user_input().lower()
-                    
-                    speak("What should I say?")
-                    content = take_user_input().lower()
-                     
-                    sendEmail(to, content)
-                    speak("Email has been sent!")
-                except Exception as e:
-                   
-                    speak("Sorry"+USERNAME+ "I am not able to send this email")
+      
         elif 'weather' in query or 'weather report' in query:
             
            try:
@@ -212,11 +202,10 @@ if __name__ == '__main__':
            except:
                speak("sorry could not found")
         
-        elif "what is time" or "time"   in query:
+        elif 'time' in query:
              strTime = datetime.now().strftime("%H:%M:%S")    
              speak(f"today's time {strTime}")
-        elif "news report" or "report" or "news" or "tell news" in query:                                  
-        #'news' or 'tell news'or'say news' in query:
-            news_report()
+        elif 'exit' in query or 'quit' in query:
+               exit()
         else:
             speak("query not define")  
