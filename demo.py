@@ -1,7 +1,7 @@
 import pyttsx3 # for text to speech
 from datetime import datetime # for time
 import speech_recognition as user_audio # user input by voice
-#import pyaudio
+import pyaudio
 import os
 import subprocess as sp
 
@@ -150,7 +150,6 @@ def news_report():
         q=articles[i]["title"]
         speak(q)
 
-    
 if __name__ == '__main__':
    
     greet_user()
@@ -207,5 +206,6 @@ if __name__ == '__main__':
              speak(f"today's time {strTime}")
         elif 'exit' in query or 'quit' in query:
                exit()
+     
         else:
             speak("query not define")  
