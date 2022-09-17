@@ -124,9 +124,9 @@ def open_camera():
 def open_calculator():
     sp.Popen(paths['calculator'])
     
-def find_my_ip():
-    ip_address = requests.get('https://api64.ipify.org?format=json').json()
-    return ip_address["ip"]
+#def find_my_ip():
+ #   ip_address = requests.get('https://api64.ipify.org?format=json').json()
+ #   return ip_address["ip"]
 
 def search_on_wikipedia(query):
     results = wikipedia.summary(query, sentences=2)
@@ -142,13 +142,20 @@ def  weather_forcast(city):
     feels_like = res["main"]["feels_like"]
     return weather, f"{temperature}℃", f"{feels_like}℃"
 
+def news_report():
+    res = requests.get(f"https://newsapi.org/v2/top-headlines?country=in&apiKey=db3a42f853984fdc9693db69aed09000&category=technology").json()
+    articles = res["articles"]
+    speak("today's news hot topics is")
+    for i in range(10):
+        q=articles[i]["title"]
+        speak(q)
+
     
 if __name__ == '__main__':
    
     greet_user()
     while True:
         query = take_user_input().lower()
-
         if 'open notepad' in query:
             open_notepad()
             
@@ -163,13 +170,15 @@ if __name__ == '__main__':
         elif 'exit' in query or 'quit' in query:
            exit()
         elif 'wikipedia' in query:
-            speak('What do you want to search on Wikipedia, sir?')
-            search_query = take_user_input().lower()
-            results = search_on_wikipedia(search_query)
-            speak(f"According to Wikipedia, {results}")
-            speak("For your convenience, I am printing it on the screen sir.")
-            print(results)
-        
+            try:
+                speak('What do you want to search on Wikipedia, sir?')
+                search_query = take_user_input().lower()
+                results = search_on_wikipedia(search_query)
+                speak(f"According to Wikipedia, {results}")
+                speak("For your convenience, I am printing it on the screen sir.")
+                print(results)
+            except:
+                speak("sorry ,could not search")
         elif 'youtube' in query:
             search_on_google("youtube")
             exit()
@@ -192,13 +201,22 @@ if __name__ == '__main__':
                    
                     speak("Sorry"+USERNAME+ "I am not able to send this email")
         elif 'weather' in query or 'weather report' in query:
-            ip_address = find_my_ip()
-            city = requests.get(f"https://ipapi.co/{ip_address}/city/").text
-            speak(f"Getting weather report for your city {city}")
-            weather, temperature, feels_like =  weather_forcast(city)
-            speak(f"The current temperature is {temperature}, but it feels like {feels_like}")
-            speak(f"Also, the weather report talks about {weather}")
-            speak("For your convenience, I am printing it on the screen sir.")
-            print(f"Description: {weather}\nTemperature: {temperature}\nFeels like: {feels_like}")
             
-            
+           try:
+               speak("what is your city name")
+               city=take_user_input().lower()
+               speak(f"Getting weather report for your city {city}")
+               weather, temperature, feels_like =  weather_forcast(city)
+               speak(f"The current temperature is {temperature}, but it feels like {feels_like}")
+               speak(f"Also, the weather report talks about {weather}")
+           except:
+               speak("sorry could not found")
+        
+        elif "what is time" or "time"   in query:
+             strTime = datetime.now().strftime("%H:%M:%S")    
+             speak(f"today's time {strTime}")
+        elif "news report" or "report" or "news" or "tell news" in query:                                  
+        #'news' or 'tell news'or'say news' in query:
+            news_report()
+        else:
+            speak("query not define")  
