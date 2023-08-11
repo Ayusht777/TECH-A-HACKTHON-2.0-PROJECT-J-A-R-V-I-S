@@ -1,0 +1,11 @@
+import pyttsx3 # for text to speech
+from datetime import datetime # for time
+import speech_recognition as user_audio # user input by voice
+import pyaudio
+import os
+import subprocess as sp
+
+import requests
+import wikipedia
+import pywhatkit as kit
+ 
